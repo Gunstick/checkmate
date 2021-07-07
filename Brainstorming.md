@@ -1,14 +1,14 @@
 # Idea
 The concept is to use the STE line duplication feature to not need to calculate unchanging lines.
-The CPU usage can mostly be modulated by how large the snammest checkerboard is.
+The CPU usage can mostly be modulated by how large the smallest checkerboard is.
 
 The aim is to reach 15 layers (each color available) plus the background.
 
 Of course in fullscreen, because it's ULM
 
 # Single line generation
-THe basic routine will be needing to draw dashed lines in 15 colors one over the other where one
-cans specify the start and width of the dashes.
+The basic routine will be needed to draw dashed lines in 15 colors one over the other where one
+can specify the start and width of the dashes.
 
 Slow method is to draw from back to front, so overwriting previous pixels where needed.
 
@@ -27,11 +27,11 @@ Data structure? Maybe a double linked list?
 4. generate the list of duplicated scanlines for STE 
 
 # CPU time estimation
-Supposing one can generate 20 different scanlines per VBL, then the smalles square would be around 273/20=13.65 pixels
+Supposing one can generate 20 different scanlines per VBL, then the smallest square would be around 273/20=13.65 pixels
 
-Or to be able to draw the smalles square as 8 pixel wide, we need to be able to generate 273/8 = 34.125 scanlines/VBL
+Or to be able to draw the smallest square as 8 pixel wide, we need to be able to generate 273/8 = 34.125 scanlines/VBL
 
-This means the final CPU usage will determine the smalles checkerboard size.
+This means the final CPU usage will determine the smallest checkerboard size.
 
 # Nice to have section
 - some or all color changeable per line (background rasters, rasters per layer)
