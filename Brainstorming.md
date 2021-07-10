@@ -33,6 +33,35 @@ Or to be able to draw the smallest square as 8 pixel wide, we need to be able to
 
 This means the final CPU usage will determine the smallest checkerboard size.
 
+# Use c2p?
+In here you can see that a pixel precise C2P needs 16 cycles per pixel
+https://github.com/spkrsmfx/c2pdev_public/blob/master/c2p.s#L576
+That costs 6528 cycles for a 408 pixel overscan (STE specific as described here 
+https://dhs.nu/misc.php?t=special&feature=overscan )
+
+So doing only C2P an nothing else, we can at max convert 160000/6528 = 24 lines
+
+So the smallest possible checkerboard would be 12 pixels wide.
+
+Plus add CPU time for overscan and generating the patterns into chunky buffer. 
+Not a comfortable margin.
+
+# Use blitter to draw horizontal lines?
+https://www.atari-forum.com/viewtopic.php?t=27153
+
+# use this technique
+https://github.com/spkrsmfx/juxtaposition_public
+which calculates first all possible masks for the line start/ends/mixes and their positions
+and then draws them to screen
+
+# clear screen, draw easy colors first
+1st layer is plane 0, 2nd layer plane 1, 3rd is 2, 4th is 3
+Don't overdraw, else it will make other colors. so needs to be masked all the way down.
+Advantage: drawing the big 1st layer only on plane0 avoids writing zero words onto already zero words
+5th is plane 0+1, 6th is plane 0+2, 7th = 0+3, 8=1+2, 9=1+3, 10=2+3
+11th is 0+1+2, 12th = 0+1+3, 13=0+2+3, 14=1+2+3, 15=0+1+2+3 
+(0th layer is background which is no planes)
+
 # Nice to have section
 - some or all color changeable per line (background rasters, rasters per layer)
 - STE horizontal distorter, STE vertically wavy screen
