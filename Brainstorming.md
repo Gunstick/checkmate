@@ -62,6 +62,30 @@ Advantage: drawing the big 1st layer only on plane0 avoids writing zero words on
 11th is 0+1+2, 12th = 0+1+3, 13=0+2+3, 14=1+2+3, 15=0+1+2+3 
 (0th layer is background which is no planes)
 
+# maybe like generate all possible horizontal line routines for overscan
+408 routines for all different lengths x16 for all different shifts
+= 6528 routines
+x 4 for writing different amounts of planes
+or rather x16 for writing different colors
+= 104448 routines :-)
+We have 4MB of ram, don't we?
+Well, that leaves only 40 bytes per routine on average (20 instructions). 
+Crazy idea, not working...
+Well then it's x4 = 26112 routines with 160 bytes per routine
+maybe
+There are 25 columns (more like 25.5, but maybe optimize to 25 than use 26)
+or dx,a(ax) = 4bytes => 100 bytes. That's just a 1 plane routine.
+
+Need to get trickier to jump into a line routine depending on length
+- start the beginning
+- jump to one of 16 routines for  middle part (where the moves are, instead of or)
+- end part (depends on one of the 16 jumps from before).
+Or the 16 routines can just be a single one by using the correct initial or value in a register.
+This is for long lines.
+
+Short lines are hard coded. See genbitpatterns.py which generates all possible patterns (137 different ones) but could be put into a table of 256 (16 lengths and 16 starts) 
+
+
 # Nice to have section
 - some or all color changeable per line (background rasters, rasters per layer)
 - STE horizontal distorter, STE vertically wavy screen
